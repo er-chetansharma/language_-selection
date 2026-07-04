@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Assessment — Consciousversity</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #1B2E4B;
+    --gold:   #C9A84C;
+    --gold-lt:#E8C96A;
+    --cream:  #F9F7F3;
+    --mist:   #EAE8E3;
+    --ink:    #2C2C2C;
+    --smoke:  #8A8A8A;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── AMBIENT BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 0%, rgba(201,168,76,.13) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 100%, rgba(201,168,76,.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 100%, rgba(201,168,76,.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── FLOATING PARTICLES ── */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float var(--dur) var(--delay) infinite ease-in-out;
+  }
+  @keyframes float {
+    0%   { opacity: 0; transform: translateY(0) scale(1); }
+    20%  { opacity: .4; }
+    80%  { opacity: .15; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    gap: 0;
+  }
+
+  /* ── WORDMARK ── */
+  .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    animation: fadeUp .8s .1s forwards ease-out;
+    margin-bottom: 56px;
+  }
+
+  /* ── HEADLINE ── */
+  .headline-wrap {
+    text-align: center;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp .9s .25s forwards ease-out;
+  }
+  .headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--cream);
+  }
+  .headline em {
+    font-style: italic;
+    color: var(--gold-lt);
+  }
+
+  /* ── SUBLINE ── */
+  .subline {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(249,247,243,.5);
+    letter-spacing: .04em;
+    text-align: center;
+    margin-bottom: 64px;
+    opacity: 0;
+    animation: fadeUp .9s .4s forwards ease-out;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 0 auto 48px;
+    opacity: 0;
+    animation: fadeIn .8s .5s forwards;
+  }
+
+  /* ── LANGUAGE PROMPT ── */
+  .lang-prompt {
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(249,247,243,.35);
+    text-align: center;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp .8s .6s forwards ease-out;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    display: flex;
+    gap: 20px;
+    opacity: 0;
+    animation: fadeUp .9s .75s forwards ease-out;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 180px;
+    height: 200px;
+    border: 1px solid rgba(201,168,76,.2);
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color .35s, transform .35s;
+    background: rgba(255,255,255,.02);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Gold fill on hover */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,.12), rgba(201,168,76,.04));
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover {
+    border-color: rgba(201,168,76,.6);
+    transform: translateY(-4px);
+  }
+
+  /* Shimmer sweep */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+    transition: left .5s ease;
+  }
+  .card:hover::after { left: 160%; }
+
+  .card-script {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--cream);
+    transition: color .35s;
+    position: relative;
+    z-index: 1;
+  }
+  .card:hover .card-script { color: var(--gold-lt); }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(249,247,243,.45);
+    position: relative;
+    z-index: 1;
+    transition: color .35s;
+  }
+  .card:hover .card-label { color: rgba(201,168,76,.8); }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    font-size: 16px;
+    color: rgba(201,168,76,.0);
+    transition: color .3s, transform .3s;
+    z-index: 1;
+  }
+  .card:hover .card-arrow {
+    color: rgba(201,168,76,.7);
+    transform: translate(2px, -2px);
+  }
+
+  /* ── PULSE RING on card ── */
+  .card-ring {
+    position: absolute;
+    inset: -1px;
+    border-radius: 4px;
+    border: 1px solid var(--gold);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .card:hover .card-ring {
+    animation: pulse-ring .6s ease-out forwards;
+  }
+  @keyframes pulse-ring {
+    0%   { opacity: .6; transform: scale(1); }
+    100% { opacity: 0;  transform: scale(1.04); }
+  }
+
+  /* ── FOOTER NOTE ── */
+  .foot {
+    margin-top: 56px;
+    font-size: 11px;
+    color: rgba(249,247,243,.22);
+    letter-spacing: .04em;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 480px) {
+    .cards { flex-direction: column; gap: 16px; }
+    .card  { width: 260px; height: 160px; }
+  }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .wordmark, .headline-wrap, .subline, .divider, .lang-prompt, .cards, .foot { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ambient particles -->
+<div class="particles" aria-hidden="true" id="particles"></div>
+
+<main class="page">
+
+  <p class="wordmark">Consciousversity</p>
+
+  <div class="headline-wrap">
+    <h1 class="headline">
+      Let's find out<br>
+      <em>what's actually going on.</em>
+    </h1>
+  </div>
+
+  <p class="subline">Free · 5–7 minutes · No diagnosis</p>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <p class="lang-prompt">Choose your language</p>
+
+  <div class="cards" role="list">
+
+    <a class="card"
+       href="https://tally.so/r/q4eGv9"
+       role="listitem"
+       aria-label="Take assessment in English">
+      <span class="card-ring" aria-hidden="true"></span>
+      <span class="card-script">English</span>
+      <span class="card-label">English</span>
+      <span class="card-arrow" aria-hidden="true">↗</span>
+    </a>
+
+    <a class="card"
+       href="https://tally.so/r/44d70b"
+       role="listitem"
+       aria-label="हिंदी में असेसमेंट लें">
+      <span class="card-ring" aria-hidden="true"></span>
+      <span class="card-script">हिंदी</span>
+      <span class="card-label">Hindi</span>
+      <span class="card-arrow" aria-hidden="true">↗</span>
+    </a>
+
+  </div>
+
+  <p class="foot">Your answers are private and used only to personalise your result.</p>
+
+</main>
+
+<script>
+  // Generate floating particles
+  (function () {
+    const container = document.getElementById('particles');
+    const count = 28;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = [
+        `left:${Math.random() * 100}%`,
+        `top:${40 + Math.random() * 55}%`,
+        `--dur:${6 + Math.random() * 10}s`,
+        `--delay:${Math.random() * 8}s`,
+        `width:${1 + Math.random() * 1.5}px`,
+        `height:${1 + Math.random() * 1.5}px`,
+        `opacity:0`
+      ].join(';');
+      container.appendChild(p);
+    }
+  })();
+</script>
+
+</body>
+</html>
